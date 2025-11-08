@@ -24,7 +24,8 @@ function getUrlParams() {
         host: urlParams.get('host'),
         port: urlParams.get('port'),
         path: urlParams.get('path'),
-        password: urlParams.get('password')
+        password: urlParams.get('password'),
+        eventName: urlParams.get('eventName')
     };
 }
 
@@ -39,7 +40,8 @@ const config = {
         port: urlParams.port || '8080',      // Port number Streamer.bot is listening on
         path: urlParams.path || '/',         // WebSocket path (usually just '/')
         password: urlParams.password || '',  // Password if Streamer.bot requires one (leave empty if none)
-        reconnectionDelay: 5000              // How long to wait before reconnecting (5 seconds)
+        reconnectionDelay: 5000,             // How long to wait before reconnecting (5 seconds)
+        eventName: urlParams.eventName || 'SquidCustomOverlay' // Event name to listen for
     },
     
     // Timing settings - How long things appear and fade (all values in milliseconds)
@@ -474,7 +476,7 @@ function updateConnectionStatus() {
 }
 
 function handleStreamerBotEvent(eventType, eventData) {
-    if (eventType === 'SquidCustomOverlay') {
+    if (eventType === config.websocket.eventName) {
         queueOverlayEvent(eventData);
     }
 }
