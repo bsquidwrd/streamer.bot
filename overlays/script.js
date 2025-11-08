@@ -365,11 +365,6 @@ function cleanupOverlay() {
     progressBar.style.width = '0%';
 }
 
-// Helper function to schedule reconnection attempt
-function scheduleReconnection() {
-    setTimeout(connectToStreamerBot, config.websocket.reconnectionDelay);
-}
-
 // Application state management
 const AppState = {
     client: null,
@@ -442,7 +437,6 @@ function connectToStreamerBot() {
                 console.log('Disconnected from Streamer.bot');
                 AppState.setConnected(false);
                 updateConnectionStatus();
-                scheduleReconnection();
             },
         });
 
@@ -457,7 +451,6 @@ function connectToStreamerBot() {
 
     } catch (error) {
         console.error('Error creating Streamer.bot client:', error);
-        scheduleReconnection();
     }
 }
 
